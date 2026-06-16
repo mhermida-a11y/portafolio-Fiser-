@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portafolio Fiserv Colombia · Fithub</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --or:#EC6412;--or-l:#fdf0e8;--or-d:#c44f0a;
+  --gn:#2D593B;--gn-l:#eaf3ed;--gn-d:#1e3d28;
+  --lv:#C2BFE1;--lv-l:#f0eff9;
+  --yw:#F7EE7E;--yw-d:#d4c93a;
+  --wh:#fff;--cr:#FAFAF5;--tx:#1a1a1a;--mu:#6b7280;--bd:#e5e7eb;
+}
+body{font-family:'Montserrat',sans-serif;background:var(--cr);color:var(--tx);-webkit-print-color-adjust:exact;print-color-adjust:exact}
+
+.hdr{background:var(--gn);color:var(--wh);padding:32px 40px 26px;position:relative;overflow:hidden}
+.hdr::after{content:'';position:absolute;top:-80px;right:-80px;width:340px;height:340px;border-radius:50%;background:rgba(255,255,255,.04);pointer-events:none}
+.hdr-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:10px}
+.logo{display:flex;align-items:center;gap:12px}
+.logo-box{width:36px;height:36px;background:var(--or);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.logo-box svg{width:20px;height:20px;fill:#fff}
+.logo-name{font-size:14px;font-weight:800;color:#fff;letter-spacing:.1em;text-transform:uppercase}
+.logo-sub{font-size:10px;color:rgba(255,255,255,.5);margin-top:1px}
+.hdr-badge{background:var(--or);color:#fff;font-size:10px;font-weight:700;padding:5px 12px;border-radius:20px;letter-spacing:.07em;text-transform:uppercase}
+.hdr-eye{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:5px}
+.hdr-name{font-size:24px;font-weight:800;color:#fff;margin-bottom:10px;line-height:1.1}
+.hdr-pills{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
+.pill{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:20px;padding:4px 12px;font-size:11px;font-weight:500;color:rgba(255,255,255,.8)}
+.hdr-line{height:1px;background:rgba(255,255,255,.12);margin-bottom:16px}
+.hdr-stats{display:flex;flex-wrap:wrap;gap:22px}
+.stat{display:flex;flex-direction:column;gap:2px}
+.stat-v{font-size:17px;font-weight:700;color:#fff}
+.stat-l{font-size:9px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.4)}
+.stat-sep{width:1px;background:rgba(255,255,255,.12);align-self:stretch}
+
+.nav{background:#fff;border-bottom:1px solid var(--bd);position:sticky;top:0;z-index:100}
+.nav-inner{max-width:1200px;margin:0 auto;padding:0 32px;display:flex;overflow-x:auto;gap:2px;scrollbar-width:none}
+.nav-inner::-webkit-scrollbar{display:none}
+.nav-a{padding:12px 14px;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--mu);white-space:nowrap;cursor:pointer;border-bottom:2px solid transparent;transition:all .15s;text-decoration:none;flex-shrink:0}
+.nav-a:hover,.nav-a.on{color:var(--or);border-bottom-color:var(--or)}
+
+.main{max-width:1200px;margin:0 auto;padding:30px 40px 60px}
+
+.obar{background:var(--yw);border:1px solid var(--yw-d);border-radius:12px;padding:13px 20px;display:flex;align-items:center;gap:12px;margin-bottom:28px}
+.obar-txt{font-size:12px;font-weight:600;color:var(--gn-d)}
+.obar-val{margin-left:auto;font-size:15px;font-weight:800;color:var(--gn-d)}
+
+.sec{margin-bottom:40px}
+.sec-head{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.sec-ico{width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.ico-or{background:var(--or-l);color:var(--or)}
+.ico-gn{background:var(--gn-l);color:var(--gn)}
+.ico-lv{background:var(--lv-l);color:#5a55a0}
+.ico-yw{background:#fffde0;color:#7a6f00}
+.sec-title{font-size:16px;font-weight:700;color:var(--tx)}
+.sec-sub{font-size:11px;color:var(--mu);margin-top:1px}
+.sec-line{flex:1;height:1px;background:var(--bd)}
+.sec-cnt{font-size:11px;font-weight:600;color:var(--mu);white-space:nowrap}
+
+/* Tag novedad */
+.tag-new{display:inline-block;font-size:8px;font-weight:800;padding:2px 7px;border-radius:8px;letter-spacing:.06em;text-transform:uppercase;margin-left:6px;vertical-align:middle;background:var(--or);color:#fff}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(172px,1fr));gap:13px}
+
+.card{background:#fff;border-radius:12px;overflow:hidden;border:1px solid var(--bd);transition:transform .18s,box-shadow .18s;display:flex;flex-direction:column;position:relative}
+.card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.09)}
+.card-new-ribbon{position:absolute;top:10px;right:10px;z-index:2;background:var(--or);color:#fff;font-size:8px;font-weight:800;padding:2px 8px;border-radius:8px;letter-spacing:.06em;text-transform:uppercase}
+.card-img{width:100%;aspect-ratio:1;background:var(--cr);display:flex;align-items:center;justify-content:center;overflow:hidden;padding:10px;position:relative}
+.card-img img{width:100%;height:100%;object-fit:contain;border-radius:4px}
+.no-img{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;opacity:.2}
+.no-img svg{width:24px;height:24px}
+.no-img span{font-size:8px;font-weight:600;text-transform:uppercase;letter-spacing:.06em}
+.card-body{padding:10px 12px 12px;flex:1;display:flex;flex-direction:column;border-top:1px solid var(--bd)}
+.cb-brand{font-size:9px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;margin-bottom:3px}
+.br-or{color:var(--or)} .br-gn{color:var(--gn)} .br-lv{color:#5a55a0} .br-yw{color:#7a6f00}
+.cb-name{font-size:11px;font-weight:600;color:var(--tx);line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:30px;flex:1}
+.cb-foot{display:flex;align-items:flex-end;justify-content:space-between;margin-top:9px;gap:5px}
+.price-l{font-size:8px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--mu);display:block;margin-bottom:1px}
+.price-v{font-size:14px;font-weight:800;color:var(--tx)}
+.card-link{font-size:9px;font-weight:700;color:var(--gn);text-decoration:none;padding:4px 7px;border-radius:6px;background:var(--gn-l);border:1px solid #c5ddc9;white-space:nowrap;flex-shrink:0}
+.card-link:hover{background:var(--gn);color:#fff}
+
+/* CAFÉ */
+.cafe-row{display:grid;grid-template-columns:1fr 1fr;gap:13px;max-width:480px}
+.cafe-card{background:#fff;border-radius:12px;border:1px solid var(--bd);display:flex;align-items:center;gap:12px;padding:13px;position:relative;transition:transform .18s,box-shadow .18s}
+.cafe-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.09)}
+.cafe-img{width:68px;height:68px;background:var(--cr);border-radius:9px;overflow:hidden;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.cafe-img img{width:100%;height:100%;object-fit:contain;padding:4px}
+.cafe-new{position:absolute;top:8px;right:8px;background:var(--or);color:#fff;font-size:8px;font-weight:800;padding:2px 7px;border-radius:7px;letter-spacing:.06em;text-transform:uppercase}
+.cafe-brand{font-size:9px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--or);margin-bottom:3px}
+.cafe-name{font-size:12px;font-weight:700;color:var(--tx);line-height:1.3;margin-bottom:5px}
+.cafe-price{font-size:14px;font-weight:800;color:var(--tx)}
+
+/* HELADOS */
+.sec-ice{background:linear-gradient(135deg,var(--gn-d) 0%,var(--gn) 100%);border-radius:18px;padding:26px;position:relative;overflow:hidden}
+.sec-ice::before{content:'';position:absolute;top:-50px;right:-60px;width:250px;height:250px;border-radius:50%;background:rgba(255,255,255,.04);pointer-events:none}
+.sec-ice .sec-title{color:#fff}
+.sec-ice .sec-sub{color:rgba(255,255,255,.55)}
+.sec-ice .sec-line{background:rgba(255,255,255,.2)}
+.sec-ice .sec-cnt{color:rgba(255,255,255,.45)}
+.sec-ice .sec-ico{background:rgba(255,255,255,.12);color:#fff}
+.ice-badge{background:var(--yw);color:var(--gn-d);font-size:9px;font-weight:800;padding:2px 9px;border-radius:8px;letter-spacing:.05em;text-transform:uppercase;margin-left:8px}
+.sec-ice .card{background:rgba(255,255,255,.96);border-color:rgba(255,255,255,.15)}
+.ice-grid{position:relative;z-index:1}
+
+/* PDF BTN */
+.pdf-btn{position:fixed;bottom:20px;right:20px;background:var(--or);color:#fff;border:none;border-radius:12px;padding:12px 20px;font-size:13px;font-weight:700;font-family:'Montserrat',sans-serif;cursor:pointer;box-shadow:0 4px 18px rgba(236,100,18,.4);display:flex;align-items:center;gap:8px;z-index:200;transition:all .2s}
+.pdf-btn:hover{background:var(--or-d);transform:translateY(-2px)}
+.pdf-btn svg{flex-shrink:0}
+
+@media(max-width:580px){
+  .hdr,.main{padding:20px 16px}
+  .nav-inner{padding:0 12px}
+  .grid{grid-template-columns:repeat(2,1fr);gap:10px}
+  .cafe-row{grid-template-columns:1fr}
+  .stat-sep{display:none}
+}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="hdr-top">
+    <div class="logo">
+      <div class="logo-box"><svg viewBox="0 0 20 20"><path d="M10 2C5.6 2 2 5.6 2 10s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm0 3c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm0 9.5c-2.5 0-4.7-1.3-6-3.2.03-2 4-3.1 6-3.1 1.99 0 5.97 1.1 6 3.1-1.3 1.9-3.5 3.2-6 3.2z"/></svg></div>
+      <div><div class="logo-name">Fithub</div><div class="logo-sub">Canal Institucional</div></div>
+    </div>
+    <span class="hdr-badge">Portafolio B2B</span>
+  </div>
+  <div class="hdr-eye">Preparado especialmente para</div>
+  <div class="hdr-name">Fiserv Colombia Limitada</div>
+  <div class="hdr-pills">
+    <span class="pill">NIT: 830.094.425-0</span>
+    <span class="pill">Oficina / Empresa</span>
+    <span class="pill">Bogotá, Colombia</span>
+    <span class="pill">Tecnología</span>
+  </div>
+  <div class="hdr-line"></div>
+  <div class="hdr-stats">
+    <div class="stat"><span class="stat-v" id="total-refs">—</span><span class="stat-l">Referencias base</span></div>
+    <div class="stat-sep"></div>
+    <div class="stat"><span class="stat-v">$1.000.000</span><span class="stat-l">Pedido mínimo</span></div>
+    <div class="stat-sep"></div>
+    <div class="stat"><span class="stat-v">Jun 2026</span><span class="stat-l">Generado</span></div>
+  </div>
+</header>
+
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a class="nav-a" href="#aguas">💧 Aguas</a>
+    <a class="nav-a" href="#bebidas">🍵 Bebidas</a>
+    <a class="nav-a" href="#galleteria">🍪 Galletería</a>
+    <a class="nav-a" href="#snacks">🍿 Snacks</a>
+    <a class="nav-a" href="#frutos">🥜 Frutos Secos</a>
+    <a class="nav-a" href="#cafe">☕ Café</a>
+    <a class="nav-a" href="#helados">🍦 Helados · Eventos</a>
+  </div>
+</nav>
+
+<main class="main" id="main-content">
+
+  <div class="obar">
+    <span style="font-size:18px">📋</span>
+    <span class="obar-txt">Pedido mínimo institucional · Fiserv Colombia Limitada</span>
+    <span class="obar-val">$1.000.000 COP</span>
+  </div>
+
+  <!-- AGUAS -->
+  <section class="sec" id="aguas">
+    <div class="sec-head">
+      <div class="sec-ico ico-lv">💧</div>
+      <div><div class="sec-title">Aguas</div><div class="sec-sub">Agua natural, alcalina y de manantial</div></div>
+      <div class="sec-line"></div><span class="sec-cnt" id="cnt-aguas"></span>
+    </div>
+    <div class="grid" id="g-aguas"></div>
+  </section>
+
+  <!-- BEBIDAS -->
+  <section class="sec" id="bebidas">
+    <div class="sec-head">
+      <div class="sec-ico ico-lv">🍵</div>
+      <div><div class="sec-title">Bebidas</div><div class="sec-sub">Tés, sodas, gaseosas, energizantes y fermentadas</div></div>
+      <div class="sec-line"></div><span class="sec-cnt" id="cnt-bebidas"></span>
+    </div>
+    <div class="grid" id="g-bebidas"></div>
+  </section>
+
+  <!-- GALLETERÍA -->
+  <section class="sec" id="galleteria">
+    <div class="sec-head">
+      <div class="sec-ico ico-or">🍪</div>
+      <div><div class="sec-title">Galletería</div><div class="sec-sub">Línea Diet Nature, Gluten Free y bizcochos · Fithub · Gullón · Madeleine · OLÜ</div></div>
+      <div class="sec-line"></div><span class="sec-cnt" id="cnt-galleteria"></span>
+    </div>
+    <div class="grid" id="g-galleteria"></div>
+  </section>
+
+  <!-- SNACKS -->
+  <section class="sec" id="snacks">
+    <div class="sec-head">
+      <div class="sec-ico ico-or">🍿</div>
+      <div><div class="sec-title">Snacks y Pasabocas</div><div class="sec-sub">Chips, crispetas, papitas, rosquitas, chocolates y gummies · Fithub · Natif · Krost · Monterojo y más</div></div>
+      <div class="sec-line"></div><span class="sec-cnt" id="cnt-snacks"></span>
+    </div>
+    <div class="grid" id="g-snacks"></div>
+  </section>
+
+  <!-- FRUTOS SECOS -->
+  <section class="sec" id="frutos">
+    <div class="sec-head">
+      <div class="sec-ico ico-yw">🥜</div>
+      <div><div class="sec-title">Frutos Secos</div><div class="sec-sub">Almendras, marañón, nueces y mix listos para consumir</div></div>
+      <div class="sec-line"></div><span class="sec-cnt" id="cnt-frutos"></span>
+    </div>
+    <div class="grid" id="g-frutos"></div>
+  </section>
+
+  <!-- CAFÉ -->
+  <section class="sec" id="cafe">
+    <div class="sec-head">
+      <div class="sec-ico ico-yw">☕</div>
+      <div><div class="sec-title">Café · Selección especial</div><div class="sec-sub">Origen colombiano premium · Pergamino y Casa Landino</div></div>
+      <div class="sec-line"></div><span class="sec-cnt">2 referencias</span>
+    </div>
+    <div class="cafe-row" id="g-cafe"></div>
+  </section>
+
+  <!-- HELADOS EVENTOS -->
+  <section class="sec sec-ice" id="helados">
+    <div class="sec-head">
+      <div class="sec-ico">🍦</div>
+      <div>
+        <div class="sec-title">Helados <span class="ice-badge">Solo para eventos</span></div>
+        <div class="sec-sub">Sin azúcar añadida · No incluidos en el pedido semanal regular · OLÜ · Fithub Bites · Franuí · Bodai</div>
+      </div>
+      <div class="sec-line"></div><span class="sec-cnt" id="cnt-helados"></span>
+    </div>
+    <div class="grid ice-grid" id="g-helados"></div>
+  </section>
+
+</main>
+
+<footer style="background:#1e3d28;color:rgba(255,255,255,.4);text-align:center;padding:20px 32px;font-size:11px;line-height:1.9">
+  <strong style="color:rgba(255,255,255,.7)">Fithub · Canal Institucional · STF 15 Usaquén, Bogotá</strong><br>
+  Portafolio preparado para Fiserv Colombia Limitada · NIT 830.094.425-0 · Junio 2026<br>
+  <span style="opacity:.5;font-size:10px">Confidencial — uso exclusivo de Fithub / Adwellch S.A.S.</span>
+</footer>
+
+<button class="pdf-btn" id="pdf-btn" onclick="descargarPDF()">
+  <svg width="15" height="15" fill="#fff" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zm-8 2V5h2v6h1.17L12 13.17 9.83 11H11zm-6 7h14v2H5v-2z"/></svg>
+  Descargar PDF
+</button>
+
+<script>
+function cop(p,t){return '$'+Math.round(p*(1+(t||0)/100)).toLocaleString('es-CO')}
+
+function makeCard(p, brandCls, isNew) {
+  const card = document.createElement('div');
+  card.className = 'card';
+  if (isNew) {
+    const ribbon = document.createElement('span');
+    ribbon.className = 'card-new-ribbon';
+    ribbon.textContent = 'Novedad';
+    card.appendChild(ribbon);
+  }
+  const imgWrap = document.createElement('div');
+  imgWrap.className = 'card-img';
+  if (p.img) {
+    const img = document.createElement('img');
+    img.src = p.img; img.alt = p.name; img.loading = 'lazy';
+    img.onerror = function() {
+      this.style.display = 'none';
+      const ph = document.createElement('div');
+      ph.className = 'no-img';
+      ph.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg><span>Sin imagen</span>';
+      imgWrap.appendChild(ph);
+    };
+    imgWrap.appendChild(img);
+  }
+  card.appendChild(imgWrap);
+  const body = document.createElement('div');
+  body.className = 'card-body';
+  body.innerHTML = `<div class="cb-brand ${brandCls}">${p.brand}</div><div class="cb-name">${p.name}</div>
+    <div class="cb-foot"><div><span class="price-l">precio c/IVA</span><span class="price-v">${cop(p.price,p.tax)}</span></div>
+    <a class="card-link" href="https://fithub.com.co/p/${p.slug}" target="_blank">Ver →</a></div>`;
+  card.appendChild(body);
+  return card;
+}
+
+function buildGrid(id, products, brandCls, cntId) {
+  const el = document.getElementById(id);
+  products.forEach(p => el.appendChild(makeCard(p, brandCls||'br-or', p.isNew||false)));
+  if (cntId) document.getElementById(cntId).textContent = products.length+' SKUs';
+}
+function buildMixed(id, groups, cntId) {
+  const el = document.getElementById(id);
+  let total = 0;
+  groups.forEach(({prods,cls}) => { prods.forEach(p => { el.appendChild(makeCard(p,cls,p.isNew||false)); total++; }); });
+  if (cntId) document.getElementById(cntId).textContent = total+' SKUs';
+}
+
+// ── DATA ─────────────────────────────────────────────────────────────────────
+
+const AGUAS = [
+  {name:"Agua Natural - Cristal x 600 ml",brand:"Cristal",price:2151,tax:0,slug:"agua-natural-cristal-x-600-ml",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/9854ec25-41de-4971-9dc4-6e0206dec521.jpg"},
+  {name:"Agua sin Gas - Brisa x 600 ml",brand:"Brisa",price:1800,tax:0,slug:"agua-sin-gas-brisa-x-600-ml",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/79071322.jpg"},
+  {name:"Agua Ph Plus Pet - Ph Plus x 1000 ml",brand:"Ph Plus",price:7400,tax:0,slug:"agua-ph-plus-pet-ph-plus-x-1000-ml",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/79076937.jpg"},
+];
+
+// BEBIDAS: Hatsu (tés + sodas) → Nexba → Ekii → Coca Cola (incl. sin azúcar lata) → Energizantes
+// Sin Selvit, sin Redcon1
+const BEBIDAS_HATSU = [
+  {name:"Té Blanco Mangostino - Hatsu x 400 ml",brand:"Hatsu",price:5524,tax:19,slug:"te-blanco-mangostino-hatsu-x-400-ml",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/79020893.jpg"},
+  {name:"Té Verde Yuzu Camomile - Hatsu x 400 ml",brand:"Hatsu",price:5524,tax:19,slug:"te-verde-yuzu-camomile-hatsu-x-400-ml",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/79020889.jpg"},
+  {name:"Té Blanco Granada Mora Azul - Hatsu x 400 ml",brand:"Hatsu",price:5524,tax:19,slug:"te-blanco-granada-mora-azul-hatsu-x-400-ml",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/79020916.jpg"},
+  {name:"Té Rojo Frutos Rojos - Hatsu x 400 ml",brand:"Hatsu",price:5524,tax:19,slug:"te-hatsu-con-te-rojo-y-sabor-a-frutos-rojos-hatsu-x-400-ml",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/79071303.jpg"},
+  {name:"Té Negro Limón - Hatsu x 400 ml",brand:"Hatsu",price:5524,tax:19,slug:"te-hatsu-negro-y-jugo-de-limon-hatsu-x-400-ml",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/79071301.jpg"},
+  {name:"Soda Frambuesa & Rosa - Hatsu x 300 ml",brand:"Hatsu",price:3786,tax:19,slug:"soda-frambuesa-rosa-hatsu-x-300-ml",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/79027670.jpg"},
+  {name:"Soda Sandía & Albahaca - Hatsu x 300 ml",brand:"Hatsu",price:3786,tax:19,slug:"soda-sandia-albahaca-hatsu-x-300-ml",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/79027664.jpg"},
+  {name:"Soda Uva Blanca & Romero - Hatsu x 300 ml",brand:"Hatsu",price:3786,tax:19,slug:"soda-uva-blanca-romero-hatsu-x-300-ml",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/79027656.jpg"},
+  {name:"Soda Frambuesa & Rosas Lata - Hatsu x 269 ml",brand:"Hatsu",price:3030,tax:19,slug:"soda-frambuesa-rosas-lata-hatsu-x-269-ml",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/79071497_L1CRsq0.jpg"},
+  {name:"Soda Sandía & Albahaca Lata - Hatsu x 269 ml",brand:"Hatsu",price:3030,tax:19,slug:"soda-sandia-albahaca-lata-hatsu-x-269-ml",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/79071499_mrZID0F.jpg"},
+];
+const BEBIDAS_OTROS = [
+  {name:"Agua Kéfir Arándanos y Vainilla - Nexba x 330 ml",brand:"Nexba",price:13690,tax:19,slug:"agua-kefir-arandanos-y-vainilla-nexba-x-330-ml",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/2074a9aa-88cb-4101-8352-a626f7210ba8.jpg"},
+  {name:"Kombucha de Mango - Nexba x 330 ml",brand:"Nexba",price:13690,tax:19,slug:"kombucha-de-mango-nexba-x-330-ml",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/10cb7dd6-391d-4dfe-982d-1fd6ceec0df8.jpg"},
+  {name:"Té sabor a Fresa Limón - Ekii x 400 ml",brand:"Ekii",price:5700,tax:19,slug:"te-sabor-a-fresa-limon-ekii-x-400-ml",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/79034364.jpg"},
+  {name:"Té Verde Frambuesa - Ekii x 400 ml",brand:"Ekii",price:5700,tax:19,slug:"te-verde-frambuesa-ekii-x-400-ml",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/79056649_3yfbGrh.jpg"},
+  {name:"Coca Cola Original x 400 ml",brand:"Coca Cola",price:2850,tax:19,slug:"coca-cola-original-coca-cola-x-400-ml",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/79971696.jpg"},
+  {name:"Coca Cola Sin Azúcar Lata x 330 ml",brand:"Coca Cola",price:3600,tax:19,slug:"coca-cola-sin-azucar-coca-cola-x-330-ml",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/cacola_sn_azucar_.png"},
+  {name:"Coca Cola Zero x 400 ml",brand:"Coca Cola",price:2850,tax:19,slug:"coca-cola-zero-coca-cola-x-400ml",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/79971698.jpg"},
+];
+
+// GALLETERÍA: Fithub → Gullón → Madeleine → OLÜ
+const GALL_FIT = [
+  {name:"Alfajor de Arroz Arequipe - fithub x 160 g",brand:"Fithub",price:17500,tax:19,slug:"alfajor-de-arroz-arequipe-fithub-x-160-g",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/89018545.jpg"},
+  {name:"Alfajor de Arroz Chocolate - fithub x 170 g",brand:"Fithub",price:17800,tax:19,slug:"alfajor-de-arroz-chocolate-fithub-x-170-g",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/89018552.jpg"},
+  {name:"Galleta de Arroz Arándanos - fithub x 50 g",brand:"Fithub",price:5400,tax:19,slug:"galleta-de-arroz-con-arandanos-fithub-x-50-g",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/79074347.jpg"},
+  {name:"Galleta de Arroz Chips Chocolate - fithub x 50 g",brand:"Fithub",price:5800,tax:19,slug:"galleta-de-arroz-con-chips-de-chocolate-fithub-x-50-g",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/79074353.jpg"},
+  {name:"Galleta de Arroz Vainilla - fithub x 50 g",brand:"Fithub",price:4000,tax:19,slug:"galleta-de-arroz-sabor-vainilla-fithub-x-50-g",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/79074340.jpg"},
+  {name:"Obleas Amaranto Chocolate - fithub x 60 g",brand:"Fithub",price:25800,tax:19,slug:"obleas-amaranto-chocolate-fithub-x-60-g",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/89018637_EmoHwzP.jpg"},
+  {name:"Obleas Amaranto con Coco - fithub x 60 g",brand:"Fithub",price:25800,tax:19,slug:"obleas-amaranto-con-coco-fithub-x-60-g",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/89016597.jpg"},
+  {name:"Obleas Amaranto Frutos Rojos - fithub x 60 g",brand:"Fithub",price:25800,tax:19,slug:"obleas-amaranto-frutos-rojos-fithub-x-60-g",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/89016237_mHXltr1.jpg"},
+  {name:"Obleas Amaranto Nuez - fithub x 60 g",brand:"Fithub",price:25800,tax:19,slug:"obleas-amaranto-nuez-fithub-x-60-g",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/89016572_zkcFffX.jpg"},
+];
+const GALL_GULLON = [
+  {name:"Digestive sin Gluten - Gullón x 150 g",brand:"Gullón",price:14800,tax:19,slug:"digestive-sin-gluten-gullon-x-150-g",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/79054486.jpg"},
+  {name:"Galleta Pasta sin Glúten - Gullón x 200 g",brand:"Gullón",price:19800,tax:19,slug:"galleta-pasta-sin-gluten-gullon-x-200-g",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/7848215_lW2LvIw.jpg"},
+  {name:"Fibra Diet Nature - Gullón x 170 g",brand:"Gullón",price:12800,tax:19,slug:"fibra-diet-nature-gullon-x-170-g",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/79019569.jpg"},
+  {name:"Galleta Sándwich Yogurt - Gullón x 220 g",brand:"Gullón",price:21300,tax:19,slug:"galleta-sandwich-yogurt-gullon-x-220-g",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/79019521_TX7ZkOM.jpg"},
+  {name:"Digestive Muesli - Gullón x 365 g",brand:"Gullón",price:20200,tax:19,slug:"digestive-muesli-gullon-x-365-g",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/79079051.jpg"},
+  {name:"María Diet Nature - Gullón x 400 g",brand:"Gullón",price:23800,tax:19,slug:"maria-diet-nature-gullon-x-400-g",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/79019552_m5s1cqN.jpg"},
+  {name:"María Ligera sin Glúten - Gullón x 380 g",brand:"Gullón",price:24900,tax:19,slug:"maria-ligera-sin-gluten-gullon-x-380-g",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/79054546_dnVwyHD.jpg"},
+  {name:"Chip Choco sin Glúten y sin Azúcar - Gullón x 125 g",brand:"Gullón",price:15200,tax:19,slug:"chip-choco-sin-gluten-y-sin-azucar-gullon-x-125-g",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/79019583_Bw8fdeI.jpg"},
+  {name:"Chocodigestive Diet Nature - Gullón x 270 g",brand:"Gullón",price:24800,tax:19,slug:"chocodigestive-diet-nature-gullon-x-270-g",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/79019538.jpg"},
+  {name:"Galletas Choco Tablet Zero - Gullón x 4 uds",brand:"Gullón",price:22900,tax:19,slug:"galletas-choco-tablet-zero-sin-azucares-gullon-x-4-uds",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/79073998_Wi6UXki.jpg"},
+  {name:"Galleta Dorada al Horno Diet Nature - Gullón x 330 g",brand:"Gullón",price:22900,tax:19,slug:"galleta-dorada-al-horno-diet-nature-gullon-x-330-g",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/79024419.jpg"},
+  {name:"Sándwich Diet Nature - Gullón x 250 g",brand:"Gullón",price:18200,tax:19,slug:"sandwich-diet-nature-gullon-x-250-g",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/79024198.jpg"},
+  {name:"Twins Diet Nature Tipo Oreo - Gullón x 147 g",brand:"Gullón",price:13000,tax:19,slug:"twins-diet-nature-tipo-oreo-gullon-x-147-g",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/7905453.png"},
+  {name:"Wafer Diet Nature con Chocolate - Gullón x 60 g",brand:"Gullón",price:6500,tax:19,slug:"wafer-diet-nature-con-chocolate-gullon-x-60-g",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/79024168.jpg"},
+  {name:"Wafer Vainilla Diet Nature - Gullón x 60 g",brand:"Gullón",price:6500,tax:19,slug:"wafer-vainilla-diet-nature-gullon-x-60-g",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/79024150_4ExEFvI.jpg"},
+  {name:"Dibus Skarkies Cacao sin Glúten - Gullón x 250 g",brand:"Gullón",price:20800,tax:19,slug:"dibus-skarkies-cacao-sin-gluten-gullon-x-250-g",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/79079044.jpg"},
+];
+const GALL_MAD = [
+  {name:"Bizcocho de Mantequilla - Madeleine St Michel x 25 g",brand:"Madeleine St Michel",price:4500,tax:19,slug:"bizcocho-de-mantequilla-madeleine-st-michel-x-25-g",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/e74ba936-98bf-4262-bb09-22e8eb9c1957.jpg"},
+  {name:"Bizcocho de Mantequilla - Madeleine St Michel x 175 g",brand:"Madeleine St Michel",price:25150,tax:19,slug:"bizcocho-de-mantequilla-madeleine-st-michel-x-175-g",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/13a203bc-af81-43c8-b9e8-c390158b2ad8.jpg"},
+  {name:"Bizcocho de Mantequilla - Madeleine St Michel x 250 g",brand:"Madeleine St Michel",price:34650,tax:19,slug:"bizcocho-de-mantequilla-madeleine-st-michel-x-250-g",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/548a04fe-c6cc-48be-b3a1-993a6148a2d4.jpg"},
+  {name:"Bizcocho Mantequilla Chips Chocolate - Madeleine St Michel x 175 g",brand:"Madeleine St Michel",price:26100,tax:19,slug:"bizcocho-de-mantequilla-chips-chocolate-madeleine-st-michel-x-175-g",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/135bb9fc-b434-4f1c-a1aa-c8c53d32914d.jpg"},
+  {name:"Galletas de Caramelo - St Michel x 150 g",brand:"Madeleine St Michel",price:26150,tax:19,slug:"galletas-de-caramelo-st-michel-x-150-g",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/b4957bba-895a-4d1f-abda-bdec70b6fd02.jpg"},
+  {name:"Galletas de Mantequilla con Sal Marina - St Michel x 150 g",brand:"Madeleine St Michel",price:25300,tax:19,slug:"galletas-de-mantequilla-con-sal-marina-st-michel-x-150-g",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/c87ffcdb-08a9-40d6-bcab-37ce6218f6c2.jpg"},
+  {name:"Galletas de Mantequilla - St Michel x 130 g",brand:"Madeleine St Michel",price:21550,tax:19,slug:"galletas-de-mantequilla-st-michel-x-130-g",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/9f959707-ac5d-478f-97d2-d389a46b9c40.jpg"},
+];
+const GALL_OLU = [
+  {name:"Galleta Arequipe x 75 g - OLÜ",brand:"OLÜ",price:15300,tax:19,slug:"galleta-arequipe-x-75-g-olu",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/644ffaf2-0ab4-4a89-b415-b47ab2090cf7.jpg"},
+  {name:"Galleta Choco Avellanas x 76 g - OLÜ",brand:"OLÜ",price:15300,tax:19,slug:"galleta-choco-avellanas-x-76-g-olu",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/77f6132d-7adb-4b9f-bf7b-9fb560a555e3.jpg"},
+  {name:"Galleta Choco Chips x 76 g - OLÜ",brand:"OLÜ",price:15300,tax:19,slug:"galleta-choco-chips-x-76-g-olu",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/910eb149-048a-4799-94d7-9d30edaa115f.jpg"},
+  {name:"Galleta Red Velvet x 76 g - OLÜ",brand:"OLÜ",price:15300,tax:19,slug:"galleta-red-velvet-x-76-g-olu",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/72a8795c-048c-466b-b755-1f912ea7acfd.jpg"},
+];
+
+// SNACKS: Fithub → Natif → Delipop → Krost → Monterojo → Good Chips → Seeds → Quinoa Club → Naturela
+const SNACKS_FIT = [
+  {name:"Crispeta Sal Marina - fithub x 36 g",brand:"Fithub",price:4300,tax:19,slug:"crispeta-sal-marina-fithub-x-36-g",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/89029046_xxFiu8B.png"},
+  {name:"Papas BBQ Ahumado - fithub x 25 g",brand:"Fithub",price:3400,tax:19,slug:"papas-bbq-ahumado-fithub-x-25-g",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/890193.png"},
+  {name:"Papas BBQ Ahumado - fithub x 6 und",brand:"Fithub",price:19700,tax:19,slug:"papas-bbq-ahumado-fithub-x-6-und",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/8901697.png"},
+  {name:"Rosquitas de Yuca y Chía - fithub x 20 g",brand:"Fithub",price:2500,tax:5,slug:"rosquitas-de-yuca-y-chia-fithub-x-20-g",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/R1.png"},
+  {name:"Rosquitas de Yuca y Chía - fithub x 6 uds",brand:"Fithub",price:9000,tax:5,slug:"rosquitas-de-yuca-y-chia-fithub-x-6-uds",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/42.png"},
+];
+const SNACKS_OTROS = [
+  {name:"Crispeta Dulce Saladita - Delipop x 48 g",brand:"Delipop",price:4500,tax:19,slug:"crispeta-dulce-saladita-delipop-x-48-g",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/Crispeta_Dulce_Saladita_-_48_g.png"},
+  {name:"Mix Pimienta - Krost x 45 g",brand:"Krost",price:5500,tax:19,slug:"mix-pimienta-krost-x-45-g",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/7906098.png"},
+  {name:"Mix BBQ - Krost x 6 und",brand:"Krost",price:31900,tax:19,slug:"mix-bbq-krost-x-6-und",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/79070034_4FpqZWq.jpg"},
+  {name:"Papa Crema y Cebolla - Monterojo x 25 g",brand:"Monterojo",price:3300,tax:19,slug:"papa-crema-y-cebolla-monterojo-x-25-g",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/89022306.jpg"},
+  {name:"Chips de Plátano Maduro - Good Chips x 15 g",brand:"Good Chips",price:5500,tax:19,slug:"chips-de-platano-maduro-good-chips-x-15-g",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/79079198.jpg"},
+  {name:"Garbanzos con Limón - Seeds x 150 g",brand:"Seeds",price:16500,tax:19,slug:"garbanzos-con-limon-seeds-x-150-g",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/79036696.jpg"},
+  {name:"Chips de Arroz con Quinoa - Quinoa Club x 6 uds",brand:"Quinoa Club",price:19500,tax:19,slug:"chips-de-arroz-con-proteina-de-quinoa-y-probioticos-quinoa-club-x-6-uds",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/79075589.jpg"},
+  {name:"Rosquitas Picante - Quinoa Club x 1 uds",brand:"Quinoa Club",price:4300,tax:5,slug:"rosquitas-picante-quinoa-club-x-1-uds",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/Rosquitas_Picante_x_1_ud.png"},
+  {name:"Pasabocas Rosquitas Surtidas - Naturela x 232 g",brand:"Naturela",price:32850,tax:0,slug:"pasabocas-rosquitas-surtidas-naturela-x-232-g",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/e99a8637-bf75-4bef-908c-4526574169c5.jpg"},
+];
+
+// FRUTOS SECOS: Solo snack listo para consumir en oficina
+// Sin semillas tipo "para cocinar" (calabaza, chía, etc.), sin presentaciones 500g de Salugran
+const FRUTOS_FIT = [
+  {name:"Almendra Natural - fithub x 250 g",brand:"Fithub",price:24200,tax:19,slug:"almendra-natural-fithub-x-250-g",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/f02d1c40-bbf7-4228-9794-70c023ccdb8c.png"},
+];
+const FRUTOS_ALARA = [
+  {name:"Almendras Y Arándanos - Alara x 25 g",brand:"Alara",price:8590,tax:0,slug:"almendras-y-arandanos-alara-x-25-g",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/05b8de92-4524-4d8a-9f77-85945d26468f.jpg"},
+  {name:"Mix De Nueces - Alara x 25 g",brand:"Alara",price:8590,tax:0,slug:"mix-de-nueces-alara-x-25-g",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/5c50732a-da4a-45b1-941a-8a7352bfe94e.jpg"},
+  {name:"Clusters De Semillas - Alara x 40 g",brand:"Alara",price:13750,tax:0,slug:"clusters-de-semillas-alara-x-40-g",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/c764c60f-e3d9-4835-b2fc-ad9392d0823b.jpg"},
+];
+const FRUTOS_OTROS = [
+  {name:"Snack De Marañón con Chocolate y Sal Marina - Kjú x 80 g",brand:"Kjú",price:29900,tax:19,slug:"snack-de-maranon-con-chocolate-y-sal-marina-kju-x-80-g",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/dd34bd20-161a-41a8-abcd-6387514c2e98.jpg"},
+  {name:"Almendra Natural - Del Alba x 200 g",brand:"Del Alba",price:29000,tax:19,slug:"almendra-natural-del-alba-x-200-g",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/79026666.jpg"},
+  {name:"Almendras Saladas - Del Alba x 100 g",brand:"Del Alba",price:17000,tax:19,slug:"almendras-saladas-del-alba-x-100-g",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/almendras_saladas.png"},
+  {name:"Mix del Campo - Del Alba x 140 g",brand:"Del Alba",price:14500,tax:19,slug:"mix-del-campo-del-alba-x-140-g",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/mix_del_campo.png"},
+  {name:"Mix de Chocolate Chunk - Del Alba x 110 g",brand:"Del Alba",price:10500,tax:19,slug:"mix-de-chocolate-chunck-del-alba-x-110-g",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/mix_chocolate_chunk_alba.png"},
+  {name:"Nuez Pecán - Origen Natural x 250 g",brand:"Origen Natural",price:40200,tax:19,slug:"nuez-pecan-origen-natural-x-250-g",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/913f2a3b-d073-426c-be6a-5e691c05d880.jpg"},
+  {name:"Almendra - Origen Natural x 250 g",brand:"Origen Natural",price:24790,tax:19,slug:"almendra-origen-natural-x-250-g",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/4dc43bac-07bb-485f-bea7-2f48ac73176a.jpg"},
+];
+
+const SNACKS_NATIF = [
+  {name:"Kinops Chocolate de Leche - Natif x 30 g",brand:"Natif",price:7850,tax:19,slug:"kinops-chocolate-de-leche-natif-x-30-g",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/79060028.jpg"},
+  {name:"Kinops Chocolate Oscuro - Natif x 30 g",brand:"Natif",price:7850,tax:19,slug:"kinops-chocolate-oscuro-natif-x-30-g",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/79060011.jpg"},
+  {name:"Kinops Chocolate Blanco - Natif x 30 g",brand:"Natif",price:7850,tax:19,slug:"kinops-chocolate-blanco-natif-x-30-g",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/79060035.jpg"},
+  {name:"Palomitas Popz Dulce Salado - Natif x 22 g",brand:"Natif",price:4800,tax:19,slug:"palomitas-popz-dulce-salado-natif-x-22-g",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/cb0b8741-8d2f-49ac-9eb3-ebded23d35b2.jpg"},
+  {name:"Palomitas Popz Sal - Natif x 18 g",brand:"Natif",price:4500,tax:19,slug:"palomitas-popz-sal-natif-x-18-g",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/e679d3a4-80cd-4078-a43d-7e4c889c9907.jpg"},
+  {name:"Palomitas Popz Queso Cheddar - Natif x 18 g",brand:"Natif",price:4500,tax:19,slug:"palomitas-popz-queso-cheddar-natif-x-18-g",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/af06e259-a228-494d-ac32-5c125fb3bc8e.jpg"},
+  {name:"Gummis Sabor Frambuesa - Natif x 30 g",brand:"Natif",price:7600,tax:19,slug:"gummis-sabor-frambuesa-natif-x-30-g",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/b96cde53-81e3-416d-980b-c1431ada2a13.jpg"},
+  {name:"Gummis Sabor Frutal - Natif x 30 g",brand:"Natif",price:7600,tax:19,slug:"gummis-sabor-frutal-natif-x-30-g",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/71a668aa-4edc-4a4e-ba20-57274e6bc06e.jpg"},
+  {name:"Gummis Sabor Sandía - Natif x 30 g",brand:"Natif",price:7600,tax:19,slug:"gummis-sabor-sandia-natif-x-30-g",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/f464d3bf-f836-4b92-aa5f-b22075e0da01.jpg"},
+  {name:"Gummis Sabor Piña Naranja - Natif x 30 g",brand:"Natif",price:7600,tax:19,slug:"gummis-sabor-pina-naranja-natif-x-30-g",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/3006b9c1-dabc-4528-bfc4-a766d2a27515.jpg"},
+  {name:"Choco Tabs Mini Oscuro - Natif x 12 g",brand:"Natif",price:5000,tax:19,slug:"choco-tabs-mini-oscuro-natif-x-12-g",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/cea479cc-6330-499b-927c-f70de91f6a97.jpg"},
+  {name:"Choco Tabs Mini Leche - Natif x 12 g",brand:"Natif",price:5000,tax:19,slug:"choco-tabs-mini-leche-natif-x-12-g",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/ada34543-2171-474a-9c2b-2ccda0a363a9.jpg"},
+];
+
+// CAFÉ: Pergamino Lomaverde (top ventas) + Casa Landino Eco del Valle (novedad)
+const CAFE = [
+  {name:"Café Lomaverde en Grano - Pergamino x 360 g",brand:"Pergamino",price:41900,tax:5,slug:"cafe-lomaverde-en-grano-pergamino-x-360-g",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/8bed376f-14de-4307-9303-6b79543c7826.jpg",isNew:false},
+  {name:"Café Eco del Valle - Casa Landino x 340 g",brand:"Casa Landino",price:78300,tax:5,slug:"cafe-eco-del-valle-casa-landino-x-340-g",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/b371d209-f481-43e7-9652-a9ca08df970a.jpg",isNew:true},
+];
+
+// HELADOS: Solo presentaciones pequeñas (90g) OLÜ + Fithub Bites + Franuí + Bodai
+const HELADOS_OLU = [
+  {name:"Helado Caramelo - OLÜ x 90 g",brand:"OLÜ",price:11900,tax:19,slug:"helado-caramelo-olu-x-90-g",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/1bc8bd50-9fea-4058-b4d5-686b3e55208b.png"},
+  {name:"Helado Vainilla Chips - OLÜ x 90 g",brand:"OLÜ",price:11900,tax:19,slug:"helado-vainilla-chips-olu-x-90-g",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/1a413fee-1894-4e5f-afcd-41289fa9abd4.png"},
+  {name:"Helado Frutos Rojos - OLÜ x 90 g",brand:"OLÜ",price:11900,tax:19,slug:"helado-frutos-rojos-olu-x-90-g",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/7672b2e7-064e-4852-a377-a81d076c9f40.png"},
+  {name:"Helado Pistacho - OLÜ x 90 g",brand:"OLÜ",price:14000,tax:19,slug:"helado-pistacho-olu-x-90-g",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/7927b2e0-3359-4187-bb5e-8047adb27203.png"},
+  {name:"Helado Pie De Limón - OLÜ x 90 g",brand:"OLÜ",price:11900,tax:19,slug:"helado-pie-de-limon-olu-x-90-g",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/aaa8d6b6-2fee-4df2-bec7-a169bb951c46.png"},
+  {name:"Helado Choco Avellanas - OLÜ x 90 g",brand:"OLÜ",price:11900,tax:19,slug:"helado-choco-avellanas-olu-x-90-g",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/d512e53c-290a-406c-82aa-6b66bee1749b.png"},
+];
+const HELADOS_OTROS = [
+  {name:"Bites de Almendra - fithub x 12 uds",brand:"Fithub",price:24500,tax:19,slug:"bites-de-almendra-fithub-x-12-uds",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/89017661.jpg"},
+  {name:"Bites de Vainilla - fithub x 12 uds",brand:"Fithub",price:20800,tax:19,slug:"bites-de-vainilla-fithub-x-12-uds",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/89026656.jpg"},
+  {name:"Frambuesas en Chocolate Negro - Franuí x 150 g",brand:"Franuí",price:30300,tax:19,slug:"frambuesas-banadas-en-chocolate-negro-franui-x-150-g",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/89019269.jpg"},
+  {name:"Frambuesas en Chocolate con Leche - Franuí x 150 g",brand:"Franuí",price:30300,tax:19,slug:"frambuesas-banadas-en-chocolate-con-leche-franui-x-150-g",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/89017920.jpg"},
+  {name:"Frambuesas en Chocolate Blanco Pink - Franuí x 150 g",brand:"Franuí",price:30300,tax:19,slug:"frambuesas-banadas-en-chocolate-blanco-pink-franui-x-150-g",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/7a682e3f-3ee1-4fa6-8656-180ab43b31ad.png"},
+  {name:"Helado de Coco - Bodai x 80 g",brand:"Bodai",price:9900,tax:19,slug:"helado-de-coco-bodai-x-80-g",img:"https://dexter-media-prod-co.s3.amazonaws.com/products/79071486.jpg"},
+];
+
+// ── BUILD ─────────────────────────────────────────────────────────────────────
+buildGrid('g-aguas', AGUAS, 'br-lv', 'cnt-aguas');
+buildMixed('g-bebidas', [{prods:BEBIDAS_HATSU,cls:'br-lv'},{prods:BEBIDAS_OTROS,cls:'br-or'}], 'cnt-bebidas');
+buildMixed('g-galleteria', [{prods:GALL_FIT,cls:'br-gn'},{prods:GALL_GULLON,cls:'br-or'},{prods:GALL_MAD,cls:'br-yw'},{prods:GALL_OLU,cls:'br-lv'}], 'cnt-galleteria');
+buildMixed('g-snacks', [{prods:SNACKS_FIT,cls:'br-gn'},{prods:SNACKS_NATIF,cls:'br-or'},{prods:SNACKS_OTROS,cls:'br-or'}], 'cnt-snacks');
+buildMixed('g-frutos', [{prods:FRUTOS_FIT,cls:'br-gn'},{prods:FRUTOS_ALARA,cls:'br-or'},{prods:FRUTOS_OTROS,cls:'br-or'}], 'cnt-frutos');
+buildMixed('g-helados', [{prods:HELADOS_OLU,cls:'br-lv'},{prods:HELADOS_OTROS,cls:'br-or'}], 'cnt-helados');
+
+// Café especial con tag Novedad
+(function(){
+  const el = document.getElementById('g-cafe');
+  CAFE.forEach((p,i) => {
+    const c = document.createElement('div');
+    c.className = 'cafe-card';
+    if (p.isNew) {
+      const nb = document.createElement('span');
+      nb.className = 'cafe-new';
+      nb.textContent = 'Novedad';
+      c.appendChild(nb);
+    }
+    const imgDiv = document.createElement('div');
+    imgDiv.className = 'cafe-img';
+    if (p.img) {
+      const img = document.createElement('img');
+      img.src = p.img; img.alt = p.name; img.loading = 'lazy';
+      img.style.cssText = 'width:100%;height:100%;object-fit:contain;padding:4px';
+      imgDiv.appendChild(img);
+    }
+    c.appendChild(imgDiv);
+    const info = document.createElement('div');
+    info.innerHTML = `<div class="cafe-brand">${p.brand}</div><div class="cafe-name">${p.name}</div><div class="cafe-price">${cop(p.price,p.tax)}</div>`;
+    c.appendChild(info);
+    el.appendChild(c);
+  });
+})();
+
+// Total refs en header (base sin helados)
+const base = AGUAS.length+BEBIDAS_HATSU.length+BEBIDAS_OTROS.length+
+  GALL_FIT.length+GALL_GULLON.length+GALL_MAD.length+GALL_OLU.length+
+  SNACKS_FIT.length+SNACKS_NATIF.length+SNACKS_OTROS.length+
+  FRUTOS_FIT.length+FRUTOS_ALARA.length+FRUTOS_OTROS.length+CAFE.length;
+document.getElementById('total-refs').textContent = base + ' + ' + (HELADOS_OLU.length+HELADOS_OTROS.length) + ' eventos';
+
+// Nav scroll
+const secs = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-a');
+window.addEventListener('scroll', () => {
+  let cur = '';
+  secs.forEach(s => { if(window.scrollY >= s.offsetTop - 80) cur = s.id; });
+  navLinks.forEach(a => a.classList.toggle('on', a.getAttribute('href') === '#'+cur));
+}, {passive:true});
+
+// ── PDF DESCARGA REAL ─────────────────────────────────────────────────────────
+function descargarPDF() {
+  const btn = document.getElementById('pdf-btn');
+  const nav = document.getElementById('nav');
+  btn.innerHTML = '<svg width="15" height="15" fill="#fff" viewBox="0 0 24 24"><path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/></svg> Generando...';
+  btn.style.opacity = '0.7';
+  btn.style.pointerEvents = 'none';
+
+  nav.style.display = 'none';
+  btn.style.display = 'none';
+
+  const opt = {
+    margin: 6,
+    filename: 'Portafolio_Fiserv_Colombia_Fithub_Jun2026.pdf',
+    image: { type: 'jpeg', quality: 0.90 },
+    html2canvas: {
+      scale: 2,
+      useCORS: true,
+      allowTaint: true,
+      letterRendering: true,
+      logging: false,
+      windowWidth: 1200
+    },
+    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+    pagebreak: { mode: 'avoid-all' }
+  };
+
+  html2pdf().set(opt).from(document.body).save().then(() => {
+    nav.style.display = '';
+    btn.style.display = '';
+    btn.style.opacity = '1';
+    btn.style.pointerEvents = '';
+    btn.innerHTML = '<svg width="15" height="15" fill="#fff" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zm-8 2V5h2v6h1.17L12 13.17 9.83 11H11zm-6 7h14v2H5v-2z"/></svg> Descargar PDF';
+  }).catch(() => {
+    nav.style.display = '';
+    btn.style.display = '';
+    btn.style.opacity = '1';
+    btn.style.pointerEvents = '';
+    btn.innerHTML = '<svg width="15" height="15" fill="#fff" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zm-8 2V5h2v6h1.17L12 13.17 9.83 11H11zm-6 7h14v2H5v-2z"/></svg> Descargar PDF';
+  });
+}
+</script>
+</body>
+</html>
